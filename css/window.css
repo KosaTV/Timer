@@ -1,0 +1,93 @@
+@keyframes closing {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+}
+
+.window {
+  position: absolute;
+  top: 25%;
+  left: 37%;
+  overflow: hidden;
+  --bar-color: rgba(0, 0, 0, 0.6);
+  --select-color: rgb(230, 80, 35);
+  --content-color: rgb(247, 247, 247);
+  --bar-height: 40px;
+  --window-width: 300px;
+  --window-height: 200px;
+  backdrop-filter: blur(20px);
+  width: var(--window-width);
+  height: var(--window-height);
+  box-shadow: 0 0 10px 0 var(--bar-color);
+}
+
+.window--open {
+  animation: closing 0.13s 0s linear reverse forwards;
+}
+
+.window--close {
+  animation: closing 0.13s 0s linear forwards;
+}
+
+.window {
+  user-select: none;
+}
+
+.window__top-bar {
+  display: flex;
+  font-family: "Ubuntu", sans-serif;
+  flex-flow: nowrap row;
+  justify-content: space-between;
+  padding: 1rem;
+  align-items: center;
+  height: var(--bar-height);
+  background: var(--bar-color);
+}
+
+.window__title {
+  color: white;
+  font-size: 1.5rem;
+  pointer-events: none;
+}
+
+.window-options {
+  display: flex;
+  flex-flow: nowrap row;
+  justify-content: space-between;
+  min-width: 35px;
+}
+
+.window-options__button {
+  outline: none;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  padding: 0.3rem 0.7rem;
+  color: white;
+  cursor: pointer;
+  transition: opacity 0.1s 0s linear;
+}
+
+.window-options__button:hover {
+  opacity: .5;
+}
+
+.window-options__button--min {
+  font-size: 0.9rem;
+}
+
+.window-options__button--close {
+  border: none;
+}
+
+.window__content {
+  height: calc(100% - var(--bar-height));
+  background: var(--bar-color);
+  font-size: 1.5rem;
+  font-family: "Ubuntu", sans-serif;
+}
