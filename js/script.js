@@ -3,6 +3,7 @@ const history = document.querySelector(".history");
 const historyButton = history.querySelector(".history__toggle");
 const historyStoper = history.querySelector(".options-button--stoper");
 const appStore = document.querySelector(".history__app-store");
+const appStoreInner = document.querySelector(".history__app-store .inner-history");
 let now = new Date();
 
 const hourPointer = clock.querySelector(".pointer--hours");
@@ -51,6 +52,20 @@ historyButton.addEventListener('click',e=>{
     history.classList.toggle("history--opened");
 });
 
+const historyScrollbar = new Scrollbar();
+
+const checkOverflow = () =>{
+    if(appStoreInner.scrollHeight > appStoreInner.clientHeight){
+        const scale = appStoreInner.scrollHeight/appStoreInner.clientHeight;
+        const heightPx = getComputedStyle(appStoreInner).getPropertyValue("height");
+        const height = heightPx.substr(0,heightPx.length-2)/scale;
+        historyScrollbar.scroll.style.height = `${height}px`;
+        historyScrollbar.addScrollbar(appStore);
+    } else {
+        historyScrollbar.scrollbar.remove();
+    }
+}
+
 historyStoper.addEventListener('click',e=>{
     const startBtn = document.createElement("button");
     const pauseBtn = document.createElement("button");
@@ -87,13 +102,12 @@ historyStoper.addEventListener('click',e=>{
     cnt.appendChild(pauseBtn);
     cnt.appendChild(endBtn);
     const button = e.currentTarget;
-    const stoperWindow = new Window("Stoper");
+    const stoperWindow = new Window("Stoper",{
+        onMin: checkOverflow,
+        onClose: checkOverflow
+    });
     stoperWindow.content.classList.add("stoper-content");
     stoperWindow.content.appendChild(cnt);
     stoperWindow.content.appendChild(time);
     stoperWindow.addWindow();
-});
-
-appStore.addEventListener("keydown",e=>{
-    console.log(e);
 });

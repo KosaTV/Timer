@@ -1,18 +1,23 @@
 class Window {
-	constructor(title = "") {
+	constructor(title = "",options) {
 		this.title = title;
 		this.min = document.createElement("button");
 		this.close = document.createElement("button");
 		this.window = document.createElement("div");
 		this.topBar = document.createElement("div");
 		this.content = document.createElement("div");
-		this.appStore = document.querySelector(".history__app-store");
+		this.appStoreInner = document.querySelector(".history__app-store .inner-history");
 		this.active = null;
 		this.posX = null;
 		this.posY = null;
 		this.posXEnd = null;
 		this.posYEnd = null;
 		this.isMin = false;
+		const defaultOptions = {
+			onMin: null,
+			onClose: null
+		};
+		this.options = Object.assign(defaultOptions, options);
 		this.styling();
 	}
 
@@ -124,6 +129,9 @@ class Window {
 				e.stopImmediatePropagation();
 				this.window.classList.remove("window--close");
 				this.window.remove();
+				if(this.options.onClose){
+					this.options.onClose();
+				}
 			}
 		});
 	}
@@ -135,7 +143,10 @@ class Window {
 		} else{
 			this.isMin = true;
 			this.window.style.position = "static";
-			this.appStore.appendChild(this.window);
+			this.appStoreInner.appendChild(this.window);
+			if(this.options.onMin){
+				this.options.onMin();
+			}
 		}
 	}
 }
@@ -204,5 +215,102 @@ class Timer{
 		this.begin = 0;
 		this.place.textContent = `00:00:00.00`;
 		cancelAnimationFrame(this.handleAnimationFrame);
+	}
+}
+
+class Scrollbar{
+	constructor(){
+		this.scrollbar = document.createElement("div");
+		this.scroll = document.createElement("div");
+		this.value = 0;
+		this.posX = null;
+		this.posY = null;
+		this.posXEnd = null;
+		this.posYEnd = null;
+		this.dragable = false;
+		this.difference = 0;
+		this.scale = 0;
+		this.maxScroll = 0;
+		this.height = 0;
+		this.heightScrollbar = 0;
+		this.heightPx = 0;
+
+		this.styling();
+	}
+
+	styling(){
+		this.scrollbar.classList.add("scrollbar");
+		this.scroll.classList.add("scrollbar__scroll");
+		this.scrollbar.appendChild(this.scroll);
+
+		this.scroll.addEventListener("mousedown", e => this.dragStart(e));
+		document.addEventListener("mouseup", e => this.dragEnd(e));
+		document.addEventListener("mousemove", e => this.dragging(e));
+		appStoreInner.addEventListener("scroll",e => this.scrolling(e));
+	}
+
+	addScrollbar(place){
+		place.appendChild(this.scrollbar);
+	}
+
+	scrolling(e){
+		if(!this.dragable){
+			const {top} = this.scrollbar.getBoundingClientRect();
+			const {top: topScroll} = this.scroll.getBoundingClientRect();
+			const heightPx = getComputedStyle(this.scroll).getPropertyValue("height");
+			this.height = +heightPx.substr(0,heightPx.length-2);
+			this.value = e.clientY - this.posY - top;
+			const heightPxScrollbar = getComputedStyle(this.scrollbar).getPropertyValue("height");
+			this.heightScrollbar = +heightPxScrollbar.substr(0,heightPxScrollbar.length-2);
+	
+			this.difference = this.heightScrollbar - this.height - 4;
+			this.maxScroll = appStoreInner.scrollHeight - this.heightScrollbar;
+			this.scale = this.maxScroll/this.difference;
+			this.setValue(appStoreInner.scrollTop/this.scale);
+		}
+	}
+
+	dragStart(e){
+		e.preventDefault();
+		this.dragable = true;
+		this.posX = e.offsetX;
+		this.posY = e.offsetY;
+	}
+
+	dragEnd(e){
+		e.preventDefault();
+		this.dragable = false;
+		this.posXEnd = `${e.clientX}px`;
+		this.posYEnd = `${e.clientY}px`;
+		this.setValue(this.posYEnd - e.offsetY);
+	}
+
+
+
+	dragging(e){
+		e.preventDefault();
+		if(this.dragable){
+			const {top} = this.scrollbar.getBoundingClientRect();
+			const {top: topScroll} = this.scroll.getBoundingClientRect();
+			const heightPx = getComputedStyle(this.scroll).getPropertyValue("height");
+			this.height = +heightPx.substr(0,heightPx.length-2);
+			this.value = e.clientY - this.posY - top;
+			const heightPxScrollbar = getComputedStyle(this.scrollbar).getPropertyValue("height");
+			this.heightScrollbar = +heightPxScrollbar.substr(0,heightPxScrollbar.length-2);
+
+			const scrolled = topScroll - top;
+
+			this.difference = this.heightScrollbar - this.height - 4;
+			this.maxScroll = appStoreInner.scrollHeight - this.heightScrollbar;
+			this.scale = this.maxScroll/this.difference;
+
+			appStoreInner.scroll(0,scrolled*this.scale);
+
+			if(this.value >= 0 && this.value <= this.difference) this.setValue(e.clientY - this.posY - top);
+		}
+	}
+
+	setValue(value){
+		this.scroll.style.transform = `translateY(${value}px)`;
 	}
 }

@@ -214,6 +214,23 @@
   text-shadow: 0 0 4px white;
 }
 
+.scrollbar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 15px;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.363);
+  padding: .2rem;
+}
+
+.scrollbar__scroll {
+  width: 100%;
+  height: 100px;
+  border-radius: 15px;
+  background: rgba(53, 53, 53, 0.6);
+}
+
 .history {
   position: absolute;
   top: 0;
@@ -257,17 +274,35 @@
 }
 
 .history__app-store {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  flex-flow: column wrap;
-  overflow: auto;
+  position: relative;
   width: 100%;
+  height: calc(100vh - 50px);
+  overflow: hidden;
   padding: 1rem;
 }
 
 .history__app-store .window {
+  flex: none;
   margin: 1rem 0;
+}
+
+.history__app-store .inner-history {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-flow: column nowrap;
+  position: absolute;
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.history__app-store .inner-history::-webkit-scrollbar {
+  display: none;
 }
 
 .options-button {
@@ -283,15 +318,13 @@
 .options-button--dark {
   color: rgba(255, 255, 255, 0.7);
   border: 1px solid black;
-  background: rgba(0, 0, 0, 0.4);
-  box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.561);
 }
 
 .options-button--white {
   color: white;
   border: 1px solid #5fc5ac;
   background: rgba(36, 198, 90, 0.65);
-  box-shadow: 0 0 15px 0 rgba(0, 255, 119, 0.5);
 }
 
 .stoper-content {
