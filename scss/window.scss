@@ -62,7 +62,7 @@
   .window-options {
     display: flex;
     flex-flow: nowrap row;
-    justify-content: space-between;
+    justify-content: flex-end;
     min-width: 35px;
   }
   
@@ -79,14 +79,6 @@
     &:hover{
         opacity: .5;
     }
-  }
-  
-  .window-options__button--min {
-    font-size: 0.9rem;
-  }
-  
-  .window-options__button--close {
-    border: none;
   }
   
   .window__content {

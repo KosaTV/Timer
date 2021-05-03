@@ -1,16 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap");
-:root {
-  font: 62.5% "Noto Sans", sans-serif;
-}
-
-:root *,
-:root *::before,
-:root *::after {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
 .page {
   background-size: 100% 100%;
   height: 100vh;
@@ -340,6 +328,13 @@
   justify-content: center;
 }
 
+.stoper-content .title {
+  pointer-events: all;
+  cursor: pointer;
+  color: white;
+  font-size: 2rem;
+}
+
 .stoper-content .timer-cnt {
   display: flex;
   align-items: center;
@@ -349,4 +344,74 @@
 .stoper-content .counter {
   font-size: 5rem;
   color: white;
+}
+
+.history-window {
+  --window-width: 700px;
+  --window-height: 600px;
+}
+
+.history-window .time-cnt {
+  overflow-y: auto;
+  height: calc(var(--window-height) - 40px);
+}
+
+.history-window .time-cnt--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 5rem;
+  color: white;
+}
+
+.history-window .item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  padding: 2rem;
+}
+
+.history-window .item:not(:first-child) {
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-left: none;
+  border-right: none;
+}
+
+.history-window .item:last-child {
+  border-bottom: none;
+}
+
+.history-window .item:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.history-window .item__value {
+  margin: 0 4rem;
+}
+
+.history-window .item__button--cacel {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 15px;
+}
+
+.input {
+  font-size: 1.8rem;
+  outline: none;
+  margin: .5rem;
+  padding: .4rem;
+  background: white;
+  color: black;
+  border: none;
+  border-radius: .4rem;
+  width: 150px;
+}
+
+.com-window .window__content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

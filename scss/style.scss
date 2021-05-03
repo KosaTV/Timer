@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap");
 
-@import 'config','vars';
+@import 'vars';
 
 .page {
     background-size: 100% 100%;
@@ -242,6 +242,14 @@
     align-items: center;
     flex-flow: column nowrap;
     justify-content: center;
+
+    .title{
+        pointer-events: all;
+        cursor: pointer;
+        color: white;
+        font-size: 2rem;
+    }
+
     .timer-cnt{
     display: flex;
     align-items: center;
@@ -252,4 +260,77 @@
     font-size: 5rem;
     color: white;
 }
+}
+
+.history-window{
+    --window-width: 700px;
+    --window-height: 600px;
+
+        .time-cnt{
+            overflow-y: auto;
+            height: calc(var(--window-height) - 40px);
+
+            &--empty{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 5rem;
+                color: white;
+            }
+        }
+
+        .item{
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: white;
+            padding: 2rem;
+            &:not(:first-child){
+                border: 1px solid hsla(0,0,100%,0.3);
+                border-left: none;
+                border-right: none;
+            }
+
+            &:last-child{
+                border-bottom: none;
+            }
+
+            &:hover{
+                background: hsla(0, 0%, 0%, 0.2);
+            }
+
+            &__value{
+                margin: 0 4rem;
+            }
+
+            &__button{
+                &--cacel{
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    right: 15px;
+                }
+            }
+        }
+}
+
+.input{
+    font-size: 1.8rem;
+    outline: none;
+    margin: .5rem;
+    padding: .4rem;
+    background: white;
+    color: black;
+    border: none;
+    border-radius: .4rem;
+    width: 150px;
+}
+
+.com-window{
+    .window__content{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 }

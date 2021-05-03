@@ -14,6 +14,8 @@ class Window {
 		this.posYEnd = null;
 		this.isMin = false;
 		const defaultOptions = {
+			disabledMin: false,
+			disabledClose: false,
 			onMin: null,
 			onClose: null
 		};
@@ -33,11 +35,11 @@ class Window {
 		const windowOption = document.createElement("div");
 		windowOption.classList.add("window-options");
 		this.min.classList.add("window-options__button","window-options__button--min");
-		this.close.classList.add("window-options__button","window-options__close");
+		this.close.classList.add("window-options__button","window-options__button--close");
 		this.min.innerHTML = `<i class="far fa-window-minimize"></i>`;
 		this.close.innerHTML = `<i class="fas fa-times"></i>`;
-		windowOption.appendChild(this.min);
-		windowOption.appendChild(this.close);
+		if(!this.options.disabledMin) windowOption.appendChild(this.min);
+		if(!this.options.disabledClose) windowOption.appendChild(this.close);
 
 		this.topBar.appendChild(windowOption);
 		this.window.appendChild(this.topBar);
