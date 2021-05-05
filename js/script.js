@@ -18,28 +18,23 @@ secondPointer.style.transform = `translateX(50%) rotate(${now.getSeconds()*6-90}
 refreshTime();
 
 function refreshTime(){
+    // creating a new Time
     now = new Date();
 
+    // creating Animation of clock
     hourPointer.style.transform = `translateX(50%) rotate(${now.getHours()*30-90}deg)`;
     minutePointer.style.transform = `translateX(50%) rotate(${now.getMinutes()*6-90}deg)`;
     secondPointer.style.transform = `translateX(50%) rotate(${now.getSeconds()*6-90}deg)`;
 
+    // setting a background
     if(now.getHours() >= 19 && now.getHours() < 22){
-        if(document.body.style.backgroundImage !== "url(../img/evening.jpg)"){
-            document.body.style.setProperty("background-image","url(../img/evening.jpg)");
-        }
+        if(document.body.style.backgroundImage !== "url(./img/evening.jpg)") document.body.style.setProperty("background-image","url(./img/evening.jpg)");
     } else if(now.getHours() >= 22 || now.getHours() < 5){
-        if(document.body.style.backgroundImage !== "url(../img/night.jpg)"){
-            document.body.style.setProperty("background-image","url(../img/night.jpg)");
-        }
+        if(document.body.style.backgroundImage !== "url(./img/night.jpg)") document.body.style.setProperty("background-image","url(./img/night.jpg)");
     } else if(now.getHours() >= 7 && now.getHours() < 19){
-        if(document.body.style.backgroundImage !== "url(../img/day.jpg)"){
-            document.body.style.setProperty("background-image","url(../img/day.jpg)");
-        }
+        if(document.body.style.backgroundImage !== "url(./img/day.jpg)") document.body.style.setProperty("background-image","url(./img/day.jpg)");
     } else if(now.getHours() >= 5 && now.getHours() < 7){
-        if(document.body.style.backgroundImage !== "url(../img/morning.jpg)"){
-            document.body.style.setProperty("background-image","url(../img/morning.jpg)");
-        }
+        if(document.body.style.backgroundImage !== "url(./img/morning.jpg)") document.body.style.setProperty("background-image","url(./img/morning.jpg)");
     }
 
     requestAnimationFrame(refreshTime);
